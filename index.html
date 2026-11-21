@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PT. PyroFarm Indonesia – Reaktor PYRO-AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+:root{--bg:#F5F5F4;--surface:#fff;--surface-2:#F0F0EE;--border:#E2E2DF;--text:#0E0E0E;--text-muted:#5C5C58;--accent:#0E0E0E;--on:#fff;--accent-2:#333;--info:#777;--char:#AAA;--ok:#555;--warn:#888;--danger:#111;--g1:#111;--g2:#444;--g3:#777;--g4:#9E9E9E;--g5:#C4C4C4;--g6:#E0E0E0}
+[data-theme=dark]{--bg:#0A0A0A;--surface:#141414;--surface-2:#1C1C1C;--border:#2B2B2B;--text:#F5F5F4;--text-muted:#A3A3A0;--accent:#F5F5F4;--on:#0A0A0A;--accent-2:#D4D4D4;--info:#9A9A9A;--char:#6B6B6B;--ok:#B0B0B0;--warn:#888;--danger:#F5F5F4;--g1:#F5F5F5;--g2:#CFCFCF;--g3:#A0A0A0;--g4:#787878;--g5:#555;--g6:#3A3A3A}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px/1.5 Inter,system-ui,sans-serif;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--text);outline-offset:2px}
+header{position:sticky;top:0;z-index:20;display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;padding:10px 20px;background:var(--surface);border-bottom:1px solid var(--border)}
+header b.logo{font-size:16px;letter-spacing:-.01em}.sp{flex:1}
+.bd{display:inline-flex;gap:6px;align-items:center;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;border:1px solid var(--border);background:var(--surface)}
+.bd::before{content:'';width:7px;height:7px;border-radius:50%;background:currentColor}
+.ok,.warn,.danger,.info,.sim,.pr,.sy,.ch{color:var(--text)}.danger.bd{background:var(--text);color:var(--bg);border-color:var(--text)}.warn.bd{border:2px solid var(--text)}b.danger{text-decoration:underline}
+.warn.bd::before{border-radius:0;clip-path:polygon(50% 0,100% 100%,0 100%)}.danger.bd::before{border-radius:1px}.info.bd::before{background:none;border:2px solid currentColor}
+.bd.nd::before{display:none}.sim.bd{border-style:dashed;border-color:var(--text)}
+button,select,input{font:inherit;color:var(--text);background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:7px 12px}
+button{cursor:pointer}button:hover{background:var(--surface-2)}
+button.pri,.btn{background:var(--accent);color:var(--on);border-color:var(--accent);font-weight:600;text-decoration:none;display:inline-block;padding:7px 14px;border-radius:8px}
+button.pri:hover{background:var(--accent);opacity:.88}
+.ib{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;padding:0}.ib svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
+#ham{display:none}
+.wrap{display:flex}nav{width:248px;flex:none;padding:16px 12px;border-right:1px solid var(--border);background:var(--surface);min-height:calc(100vh - 60px)}
+nav h4{margin:18px 10px 6px;font-size:12px;font-weight:600;color:var(--text-muted)}
+nav a{display:flex;gap:10px;align-items:center;padding:8px 10px;border-radius:8px;color:var(--text);text-decoration:none}
+nav a:hover{background:var(--surface-2)}nav a[aria-current=page]{background:var(--accent);color:var(--on);font-weight:600}
+.ic{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+main{flex:1;min-width:0;padding:24px 28px;max-width:1280px}h1{font-size:22px;margin:0 0 4px;letter-spacing:-.01em}.lead{color:var(--text-muted);margin:0 0 20px}
+.g{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}.c3{grid-column:span 3}.c4{grid-column:span 4}.c6{grid-column:span 6}.c8{grid-column:span 8}.c12{grid-column:span 12}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;min-width:0}
+.card h3{margin:0 0 12px;font-size:13px;font-weight:600;color:var(--text-muted)}
+.big{font:500 30px 'JetBrains Mono',monospace;letter-spacing:-.02em}.big small,.m{font:400 13px Inter,sans-serif;color:var(--text-muted)}.mono{font-family:'JetBrains Mono',monospace}
+.cv{position:relative}.tw{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:13px}th,td{padding:6px 10px;border-bottom:1px solid var(--border);text-align:left;white-space:nowrap}th{color:var(--text-muted);font-weight:600}
+.flow{display:flex;flex-wrap:wrap;gap:10px;align-items:center}.flow .b{padding:10px 14px;border:1px solid var(--border);border-radius:10px;background:var(--surface-2)}
+.ar{width:28px;height:2px;background:var(--text-muted);position:relative;flex:none}.ar::after{content:'';position:absolute;right:-1px;top:-4px;border:5px solid transparent;border-left:7px solid var(--text-muted);border-right:0}
+.sw{display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--g1);margin-right:4px}.sy .sw{background:var(--g3)}.ch .sw{background:var(--g5)}
+.in{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}.in label{display:block;font-weight:600;font-size:13px}.in input{width:100%}.in small{display:block;color:var(--text-muted);font-size:12px}
+.in input[aria-invalid=true]{border:2px solid var(--text)}.err{font-weight:600;font-size:12px}
+.hm{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}.hm div{padding:8px 2px;text-align:center;border-radius:6px;font:500 12px 'JetBrains Mono',monospace}
+.gauge{height:140px;width:70px;border:2px solid var(--border);border-radius:8px;position:relative;overflow:hidden}.gauge i{position:absolute;bottom:0;left:0;right:0;background:var(--accent-2)}
+.hero{display:grid;grid-template-columns:1.3fr 1fr;gap:24px;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:16px}
+.hero h2{margin:0 0 8px;font-size:24px;letter-spacing:-.02em}.hero .n{font:500 38px 'JetBrains Mono',monospace;letter-spacing:-.03em;line-height:1.15}.hero p{margin:8px 0}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.sticky{position:sticky;top:var(--hh,64px);z-index:10;display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;margin-bottom:16px}
+.skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;z-index:30;background:var(--accent);color:var(--on);padding:6px 10px;border-radius:8px}
+#bk{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:14}#bk.on{display:block}
+.toast{position:fixed;bottom:16px;right:16px;z-index:40;background:var(--accent);color:var(--on);padding:10px 14px;border-radius:10px;opacity:0;pointer-events:none;transition:opacity .2s}.toast.on{opacity:1}
+footer{margin-top:24px;padding-top:12px;border-top:1px solid var(--border);color:var(--text-muted);font-size:12px}
+@media(max-width:900px){#ham{display:inline-flex}nav{position:fixed;z-index:15;top:var(--hh,56px);left:0;bottom:0;background:var(--surface);transform:translateX(-100%);transition:transform .2s;overflow:auto}nav.open{transform:none}#bk{top:var(--hh,56px)}.c3{grid-column:span 6}.c4,.c6,.c8{grid-column:span 12}main{padding:16px 12px}.hero{grid-template-columns:1fr}.sticky{position:static}}
+@media(max-width:520px){.c3{grid-column:span 12}.big{font-size:26px}.hero .n{font-size:30px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+@media print{nav,header button,#ham,.np,.sticky button{display:none!important}header{position:static}body{background:#fff;color:#000}.card{break-inside:avoid}}
+.short{display:none}
+@media(max-width:900px){header{gap:6px 8px;padding:8px 12px}#hb,#clk,.sp{display:none}.logo{order:1}#th{order:2;margin-left:auto}header .bd{order:3;font-size:11px;padding:1px 8px}.long{display:none}.short{display:inline}.hero h2{font-size:20px}}
+@media(max-width:520px){.tw:not(.nw) th,.tw:not(.nw) td{white-space:normal;padding:6px 6px;font-size:12px}}
+.sp{display:block;width:100%;height:24px;margin-top:8px;color:var(--text-muted)}.tile{display:block;color:inherit;text-decoration:none}.tile:hover{border-color:var(--text)}.tile .m{margin-top:6px}
+</style></head><body>
+<a class="skip" href="#main">Lewati ke konten</a><header><button id="ham" class="ib" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="nav"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><b class="logo">PyroFarm</b><span class="m" id="hb"></span>
+<span class="bd ok" aria-label="Status AI">AI Online</span><span id="hs" class="bd ok"></span><span class="sp"></span>
+<span class="bd sim nd"><span class="long">DATA SIMULASI – PROTOTIPE</span><span class="short">SIMULASI</span></span><span class="mono" id="clk" aria-label="Jam"></span>
+<button id="th" class="ib" aria-label="Ganti tema putih atau hitam"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"/></svg></button></header>
+<div id="bk"></div><div class="wrap"><nav id="nav" aria-label="Menu utama"></nav><main id="main" tabindex="-1"></main></div><div id="toast" class="toast" role="status"></div>
+<script>
+//#PURE-START
+// NILAI TERKUNCI – JANGAN UBAH TANPA IZIN PEMILIK
+const PROCESS_CONSTANTS={
+ reaktor:{suhuOperasiC:500,tekananOperasiBar:1.4,lajuPemanasanCperMenit:8.2,suhuStabilMinC:350,suhuStabilMaxC:580,suhuKritisDiAtasC:600,
+  puncakPanasMaksC:650,tekananMaksTabungBar:3.0,ketebalanPlatMm:[10,14],
+  katupPengamanBar:2.5,cutOffOtomatisC:600,jariJariTabungMm:300},
+ kondensor:{suhuC:120,efisiensiPersen:86,komposisiOutputPersen:{bioOil:62,syngas:30,losses:8}},
+ storage:{kapasitasTangkiL:100,isiSaatIniL:42,estimasiBlendingHari:3,pemanfaatanPersen:{blendingSolar:55,cadanganGenset:30,riset:15}},
+ energi:{nilaiKalorBioOil_MJperL:22,nilaiKalorSyngas_MJperM3:5,energiTotalPerBatch_MJ:null,kebutuhanEnergiProsesPerBatch_MJ:300,energiNettoPerBatch_MJ:null},
+ batch:{aktif:"B-014",bioOilPerBatchL:{min:38,max:44},umpanKotoranPerBatchKg:150,biocharPerBatchKg:60,syngasPerBatchM3:17,pollingMs:3000},
+ asumsiTambahan:{kadarAirPersen:14,durasiBatchJam:3.0,faseJam:1.5,suhuAwalC:30,oksigen:"Anoksik (terkendali)",
+  defaultThreshold:{lajuMaks:10,kondMaksC:150,efisMinPersen:80,isiRendahL:10}}};
+const PC=PROCESS_CONSTANTS,R=PC.reaktor,K_=PC.kondensor,ST_=PC.storage,E=PC.energi,B=PC.batch,AT=PC.asumsiTambahan,U=B.umpanKotoranPerBatchKg;
+const D={oilMid:(B.bioOilPerBatchL.min+B.bioOilPerBatchL.max)/2};
+E.energiTotalPerBatch_MJ=D.oilMid*E.nilaiKalorBioOil_MJperL+B.syngasPerBatchM3*E.nilaiKalorSyngas_MJperM3;
+E.energiNettoPerBatch_MJ=E.energiTotalPerBatch_MJ-E.kebutuhanEnergiProsesPerBatch_MJ;
+console.assert(E.energiTotalPerBatch_MJ===987&&E.energiNettoPerBatch_MJ===687,'energi 987/687');
+D.air=U*AT.kadarAirPersen/100;D.nonChar=U-B.biocharPerBatchKg-D.air;
+D.massa={char:B.biocharPerBatchKg,oil:D.nonChar*K_.komposisiOutputPersen.bioOil/100,syn:D.nonChar*K_.komposisiOutputPersen.syngas/100,loss:D.nonChar*K_.komposisiOutputPersen.losses/100,air:D.air};
+D.pemMenit=(R.suhuOperasiC-AT.suhuAwalC)/R.lajuPemanasanCperMenit;D.flow=B.syngasPerBatchM3/AT.faseJam;
+D.sigma=bar=>bar*0.1*R.jariJariTabungMm/R.ketebalanPlatMm[0];
+(function fz(o){Object.values(o).forEach(v=>typeof v=='object'&&v&&fz(v));Object.freeze(o)})(PC);
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const rn=mulberry32(2026);
+const BT=Array.from({length:21},(_,i)=>{const T=R.suhuOperasiC+(rn()-.5)*16;
+ const oil=Math.min(B.bioOilPerBatchL.max,Math.max(B.bioOilPerBatchL.min,D.oilMid+(T-R.suhuOperasiC)*.12+(rn()-.5)*3));
+ return{n:i+1,feed:U,air:AT.kadarAirPersen+(rn()-.5)*3,T,dur:AT.durasiBatchJam+(rn()-.5)*.2,oil,char:B.biocharPerBatchKg*(1+(rn()-.5)*.06),syn:B.syngasPerBatchM3*(1+(rn()-.5)*.1),loss:K_.komposisiOutputPersen.losses+(rn()-.5)*1.6,pred:0}});
+BT.forEach(b=>b.pred=b.oil*(1+(rn()-.5)*.08));
+const avg=f=>BT.reduce((s,b)=>s+f(b),0)/BT.length;
+const MAPE=avg(b=>Math.abs(b.oil-b.pred)/b.oil)*100;
+function pearson(x,y){const mx=x.reduce((a,b)=>a+b)/x.length,my=y.reduce((a,b)=>a+b)/y.length;let s=0,a=0,b=0;x.forEach((v,i)=>{s+=(v-mx)*(y[i]-my);a+=(v-mx)**2;b+=(y[i]-my)**2});return s/Math.sqrt(a*b)}
+const LPGPOP=20000;
+const SIMD={pop:20000,kot:.12,kap:U,unit:1,hari:26,yOil:D.oilMid/U,yChar:B.biocharPerBatchKg/U,pOil:10000,pChar:12500,charSold:60,lpg:15600000,hLpg:17000,kLpg:46,periode:5,syn:0,hKot:300,buang:0,opex:10000000,harga:100000000,n:1};
+const SC={kons:{yMul:.8,pOil:10000,pChar:12500,cs:50},opt:{yMul:1,pOil:11000,pChar:15000,cs:70}};
+function calcBenefit(i,o={}){
+ const g=x=>isFinite(x)?x:0,y=o.yMul??1,pO=o.pOil??i.pOil,pC=o.pChar??i.pChar,cs=(o.cs??i.charSold)/100;
+ const tot=g(i.pop*i.kot),cap=i.kap*i.unit,olah=Math.min(tot,cap),porsi=tot>0?olah/tot:0,bt=olah*i.hari/U;
+ const oil=olah*i.yOil*y*i.hari,char=olah*i.yChar*y*i.hari,syn=olah*(B.syngasPerBatchM3/U)*y*i.hari;
+ const proc=bt*E.kebutuhanEnergiProsesPerBatch_MJ,synMJ=syn*E.nilaiKalorSyngas_MJperM3,div=synMJ*i.syn/100;
+ const short=Math.max(0,proc-(synMJ-div)),oilSelf=Math.min(oil,short/E.nilaiKalorBioOil_MJperL),oilSold=oil-oilSelf;
+ const lpgM=i.lpg*(i.pop/LPGPOP)*i.periode/12,lpgMJ=g(lpgM/i.hLpg*i.kLpg),save=lpgMJ>0?Math.min(1,div/lpgMJ)*lpgM:0;
+ const revOil=oilSold*pO,revChar=char*cs*pC,lost=olah*i.hari*i.hKot,opex=i.opex*i.unit,net=revOil+revChar+save+i.buang-lost-opex,price=i.harga*i.unit;
+ return{tot,cap,olah,porsi,bt,oil,char,syn,proc,synMJ,oilSelf,oilSold,save,revOil,revChar,avoid:i.buang,lost,opex,net,year:net*12,price,payback:net>0?price/net:null,lpgM,lpgMJ};}
+(function(){const a=calcBenefit(SIMD),k=calcBenefit(SIMD,SC.kons),o=calcBenefit(SIMD,SC.opt);
+ console.assert(Math.abs(a.net-8649091)<5&&Math.abs(k.net-2416182)<5&&Math.abs(o.net-14141000)<2000,'skenario',k.net,a.net,o.net);})();
+//#PURE-END
+try{const sv=localStorage.getItem('pf_theme');document.documentElement.dataset.theme=sv||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')}catch(e){}
+const $=s=>document.querySelector(s),nz=new Intl.NumberFormat('id-ID',{maximumFractionDigits:0});
+const F=(x,d=1)=>isFinite(x)?new Intl.NumberFormat('id-ID',{minimumFractionDigits:d,maximumFractionDigits:d}).format(x):'belum diisi';
+const RP=x=>isFinite(x)?(x<0?'−':'')+'Rp'+nz.format(Math.abs(x)):'–',JT=x=>isFinite(x)?(x<0?'−':'')+'Rp'+F(Math.abs(x)/1e6,2)+' jt':'–';
+// threshold (default dari PROCESS_CONSTANTS)
+const THD={sMin:R.suhuStabilMinC,sMax:R.suhuStabilMaxC,sKrit:R.cutOffOtomatisC,pMax:R.katupPengamanBar,lMax:AT.defaultThreshold.lajuMaks,kMax:AT.defaultThreshold.kondMaksC,eMin:AT.defaultThreshold.efisMinPersen,iPenuh:ST_.kapasitasTangkiL,iRendah:AT.defaultThreshold.isiRendahL};
+const THM=[['sMin','Suhu stabil minimum','°C',100,R.suhuStabilMaxC],['sMax','Suhu stabil maksimum','°C',R.suhuStabilMinC,R.cutOffOtomatisC],['sKrit','Suhu kritis (cut-off)','°C',R.suhuStabilMaxC,R.puncakPanasMaksC],['pMax','Tekanan maksimum (katup)','bar',0.5,R.tekananMaksTabungBar],['lMax','Laju pemanasan maksimum','°C/menit',1,30],['kMax','Suhu kondensor maksimum','°C',60,300],['eMin','Efisiensi kondensor minimum','%',50,100],['iPenuh','Isi tangki penuh','L',10,ST_.kapasitasTangkiL],['iRendah','Isi tangki rendah','L',0,ST_.kapasitasTangkiL]];
+let TH={...THD};try{const s=JSON.parse(localStorage.getItem('pf_th')||'{}');THM.forEach(([k,,,lo,hi])=>{if(typeof s[k]=='number'&&s[k]>=lo&&s[k]<=hi)TH[k]=s[k]});if(!(TH.sMin<TH.sMax&&TH.sMax<TH.sKrit))TH={...THD}}catch(e){}
+const STS=t=>t<TH.sMin?['Pemanasan','','info']:t<=TH.sMax?['Stabil','','ok']:t<TH.sKrit?['Waspada','','warn']:['Kritis','','danger'];
+const bd=t=>{const s=STS(t);return`<span class="bd ${s[2]}">${s[0]}</span>`};
+// live simulation (dalam rentang PROCESS_CONSTANTS)
+const r2=mulberry32(7),S={t:0,p:0,r:0,c:0};let tk=0;
+const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
+function sim(){tk++;S.t=clamp(R.suhuOperasiC+Math.sin(tk/6)*9+(r2()-.5)*8,R.suhuOperasiC-25,R.suhuOperasiC+25);
+ S.p=clamp(R.tekananOperasiBar+Math.sin(tk/9)*.07+(r2()-.5)*.04,1.2,1.6);S.r=R.lajuPemanasanCperMenit+(r2()-.5)*.4;S.c=K_.suhuC+(r2()-.5)*4}
+const LOG=[];for(let i=0;i<60;i++){sim();LOG.push({t:new Date(Date.now()-(60-i)*B.pollingMs),a:S.t,b:S.p,c:S.c})}
+// profil 2 jam: akhir fase pirolisis batch aktif
+const NOW=AT.faseJam*60+D.pemMenit;
+const tp=m=>m<0?AT.suhuAwalC:m<D.pemMenit?AT.suhuAwalC+R.lajuPemanasanCperMenit*m:R.suhuOperasiC+Math.sin(m/5)*8;
+const M2=Array.from({length:40},(_,i)=>NOW-120+i*120/39),H2=M2.map(tp);H2[39]=S.t;
+const oilAcc=m=>m<D.pemMenit?0:D.oilMid*(1-(1-Math.min(1,(m-D.pemMenit)/(AT.faseJam*60)))**2);
+// alert log (diturunkan; Kritis historis maks 610 °C)
+const ALR=[];const dt=d=>{const x=new Date();x.setDate(x.getDate()-d);return x};
+BT.slice(7).forEach((b,i)=>{const d=13-i;ALR.push({d,lvl:'Informasi',m:`Batch selesai: bio-oil ${F(b.oil)} L (prediksi AI ${F(b.pred)} L).`})});
+[[2,582],[5,590],[6,586],[8,595],[9,597],[11,584],[12,588]].forEach(([d,t])=>ALR.push({d,lvl:'Waspada',m:`Suhu ${t} °C masuk zona Waspada. AI menyarankan kurangi daya pemanas; peternak yang memutuskan.`}));
+[[4,604,1.5],[10,609,1.8]].forEach(([d,t,mn])=>ALR.push({d,lvl:'Kritis',m:`Puncak ${t} °C selama ${F(mn)} menit; cut-off otomatis aktif (simulasi).`}));
+[3,7,13].forEach(d=>ALR.push({d,lvl:'Informasi',m:'Kalibrasi sensor suhu selesai.'}));
+ALR.sort((a,b)=>a.d-b.d);
+const cnt=l=>ALR.filter(a=>a.lvl==l).length;
+const FEED=[];const FT=[()=>`Suhu reaktor ${F(S.t)} °C, selisih ${F(S.t-R.suhuOperasiC)} °C dari target ${F(R.suhuOperasiC,0)} °C.`,()=>`Tekanan ${F(S.p,2)} bar, di bawah katup pengaman ${F(R.katupPengamanBar)} bar.`,()=>`Suhu kondensor ${F(S.c)} °C, efisiensi ${F(K_.efisiensiPersen,0)}%.`,()=>`Prediksi AI untuk ${B.aktif}: ±${F(D.oilMid,0)} L bio-oil. Keputusan tetap di peternak.`];
+function feedAdd(){FEED.unshift({t:new Date(),m:FT[(FEED.length+tk)%FT.length]()});FEED.length=Math.min(FEED.length,6)}
+const feedH=()=>FEED.map(f=>`<li><span class="mono">${f.t.toLocaleTimeString('id-ID')}</span> · ${f.m}</li>`).join('');feedAdd();feedAdd();feedAdd();
+// helpers UI
+const SPK={t:'a',p:'b',c:'c'};const spark=k=>{const v=LOG.map(x=>x[k]),lo=Math.min(...v),hi=Math.max(...v),r=hi-lo||1;return`<polyline fill="none" stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke" points="${v.map((y,i)=>(i/(v.length-1)*100).toFixed(1)+','+(22-(y-lo)/r*20).toFixed(1)).join(' ')}"/>`};
+const KP=(l,v,u,b)=>`<div class="card c3"><h3>${l}</h3><div class="big"><span ${b?`data-b="${b}"`:''}>${v}</span> <small>${u}</small></div>${SPK[b]?`<svg class="sp" data-sp="${SPK[b]}" viewBox="0 0 100 24" preserveAspectRatio="none" aria-hidden="true"></svg>`:''}</div>`;
+const C=(t,x,w='c6')=>`<section class="card ${w}"><h3>${t}</h3>${x}</section>`;
+const CV=(id,lab,h=240)=>`<div class="cv" style="height:${h}px"><canvas id="${id}" role="img" aria-label="${lab}"></canvas></div>`;
+const TB=(hd,rows,nw)=>`<div class="tw${nw?' nw':''}"><table><thead><tr>${hd.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+const col=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+let CH={};
+function ch(id,type,data,o={},sc){const e=document.getElementById(id);if(!e)return;const gr=col('--border');
+ const opt={responsive:true,maintainAspectRatio:false,animation:false,interaction:{mode:['scatter','doughnut','radar'].includes(type)?'nearest':'index',intersect:false},plugins:{legend:{display:data.datasets.length>1||type=='doughnut',labels:{usePointStyle:true,boxWidth:10,padding:14}}},...o};
+ if(sc)opt.scales={x:{stacked:!!sc.st,title:{display:!!sc.x,text:sc.x},grid:{color:gr}},y:{stacked:!!sc.st,title:{display:!!sc.y,text:sc.y},min:sc.min,max:sc.max,grid:{color:gr}}};
+ return CH[id]=new Chart(e,{type,data,options:opt})}
+const line=(l,v,n,c)=>({label:l,data:Array(n).fill(v),borderColor:c,borderDash:[6,4],pointRadius:0,borderWidth:1.5,hitRadius:12,pointHoverRadius:4});
+const ds=(l,d,c,x={})=>({label:l,data:d,borderColor:c,backgroundColor:c,pointRadius:0,borderWidth:2,hitRadius:12,pointHoverRadius:4,...x});
+const dn=(id,lab,_x,L,V,C_)=>ch(id,'doughnut',{labels:L,datasets:[{data:V,backgroundColor:C_,borderColor:col('--surface')}]},{plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:c=>`${c.label}: ${F(c.raw,1)}`}}}});
+const tl=a=>a.map(m=>Math.round(m-NOW));
+const alertList=n=>`<ul class="alist" style="margin:0;padding-left:18px">${ALR.slice(0,n).map(a=>`<li><b class="${a.lvl=='Kritis'?'danger':a.lvl=='Waspada'?'warn':'info'}">${a.lvl=='Kritis'?'':a.lvl=='Waspada'?'':''} ${a.lvl}</b> · ${dt(a.d).toLocaleDateString('id-ID')} · ${a.m}</li>`).join('')}</ul>`;
+const batchTbl=()=>TB(['Batch','Massa (kg)','Air (%)','Suhu rata² (°C)','Durasi (jam)','Bio-oil (L)','Biochar (kg)','Syngas (m³)','Losses (%)','Prediksi AI (L)','Galat (%)'],BT.map(b=>['#'+String(b.n).padStart(2,'0'),F(b.feed,0),F(b.air),F(b.T),F(b.dur,2),F(b.oil),F(b.char),F(b.syn),F(b.loss),F(b.pred),F(Math.abs(b.oil-b.pred)/b.oil*100)]),true);
+const DISC=`<footer><p><b>Disclaimer:</b> Seluruh angka pada prototipe ini adalah simulasi dan estimasi berdasarkan asumsi penulis. Manfaat aktual bervariasi menurut populasi, mortalitas, harga kontrak/HPP peternak, dan harga pasar, dan tidak dijamin. Rujukan harga: Saputra (2025) untuk bio-oil, Purnama dkk. (2025) untuk biochar, RRI (2026) dan 1ClickImpact (2026) untuk konteks pasar.</p></footer>`;
+const PAGES=[
+['MONITORING SISTEM',[1,'Dashboard Utama'],[2,'Reaktor Pirolisis (Unit 1)'],[3,'Kondensor (Unit 2)'],[4,'Storage & Blending (Unit 3)'],[5,'Analisis'],[6,'Status Sensor IoT']],
+['MANAJEMEN',[7,'Produk Turunan'],[8,'Riwayat & Laporan'],[9,'Pengaturan Threshold']],
+['BISNIS & PENGHEMATAN',[10,'Rekaman Input–Output AI'],[11,'Simulator Pendapatan & Penghematan'],[12,'Dampak Lingkungan']],
+['INFORMASI',[13,'Tentang AI & Model']]];
+const P={};const IN={...SIMD},ENV={ratio:'',ef:''};
+const flow=`<div class="flow"><span class="b">Kotoran ayam<br><small class="m">${F(U,0)} kg/batch</small></span><i class="ar"></i><span class="b">Reaktor<br><small class="m">${F(R.suhuOperasiC,0)} °C</small></span><i class="ar"></i><span class="b">Kondensor<br><small class="m">${F(K_.suhuC,0)} °C</small></span><i class="ar"></i><span class="b">Storage<br><small class="m">${F(ST_.isiSaatIniL,0)}/${F(ST_.kapasitasTangkiL,0)} L</small></span></div>
+<p class="m"><b class="pr"><i class="sw"></i> Bio-oil</b> · <b class="sy"><i class="sw"></i> Syngas</b> · <b class="ch"><i class="sw"></i> Biochar</b> — AI membantu, peternak yang memutuskan.</p>`;
+const lim=n=>[['Waspada (batas stabil)',TH.sMax,'--g3',[2,3]],['Kritis / cut-off',TH.sKrit,'--g1',[8,4]],['Puncak panas maks. tabung',R.puncakPanasMaksC,'--g4',[14,4,2,4]]].map(([l,v,c,d])=>({...line(l,v,n,col(c)),borderDash:d}));
+P[1]=()=>({h:heroH()+`<div class="g">${TILES()}${KP('Suhu reaktor',F(S.t),'°C','t')}${KP('Tekanan',F(S.p,2),'bar','p')}${KP('Bio-oil terkumpul (batch)',F(D.oilMid,0),'L')}${KP('Suhu kondensor',F(S.c),'°C','c')}
+${C('Status sistem',`<p data-b="st">${bd(S.t)}</p><p class="m">Batch aktif ${B.aktif} · oksigen: ${AT.oksigen}</p>`,'c4')}${C('Alur proses',flow,'c8')}
+${C('Suhu reaktor 2 jam terakhir',CV('c1','Grafik suhu reaktor 2 jam terakhir'))}${C('Akumulasi bio-oil batch aktif',CV('c2','Grafik akumulasi bio-oil'))}
+${C('Suhu reaktor live (3 menit terakhir)',CV('c10','Grafik suhu reaktor live'))}${C('Tekanan reaktor live (3 menit terakhir)',CV('c11','Grafik tekanan reaktor live'))}${C('Konsol AI (live)',`<ul id="feed" style="margin:0;padding-left:18px">${feedH()}</ul><h3 style="margin:14px 0 6px">Riwayat alert</h3>${alertList(4)}`,'c12')}</div>`,
+ c:()=>{ch('c1','line',{labels:tl(M2),datasets:[ds('Suhu (°C)',H2,col('--accent')),...lim(40)]},{},{x:'Menit relatif terhadap sekarang',y:'°C',min:0,max:700});
+ ch('c2','line',{labels:tl(M2),datasets:[ds('Bio-oil (L)',M2.map(oilAcc),col('--accent-2'),{fill:true})]},{},{x:'Menit relatif terhadap sekarang',y:'L',min:0});liveInit('c10','a','Suhu','°C',R.suhuOperasiC-30,R.suhuOperasiC+30);liveInit('c11','b','Tekanan','bar',1.1,1.7)}});
+P[2]=()=>({h:`<div class="g">${KP('Suhu',F(S.t),'°C','t')}${KP('Tekanan',F(S.p,2),'bar','p')}${KP('Laju pemanasan',F(S.r),'°C/menit','r')}${KP('Biochar (batch)',F(B.biocharPerBatchKg,0),'kg')}
+${C('Suhu live (3 menit terakhir)',CV('c13','Grafik suhu reaktor live'),'c6')}${C('Tekanan live (3 menit terakhir)',CV('c14','Grafik tekanan reaktor live'),'c6')}${C('Model reaktor (SVG)',`<svg viewBox="0 0 160 170" width="100%" height="190" role="img" aria-label="Model tabung reaktor"><rect id="rx" x="45" y="15" width="70" height="120" rx="14" fill="var(--surface-2)" stroke="var(--text)" stroke-width="3"/><text x="80" y="80" text-anchor="middle" fill="var(--text)" font-weight="700" id="rxt"></text><text x="80" y="158" text-anchor="middle" fill="var(--text-muted)" font-size="11">Unit 1 · oksigen: ${AT.oksigen}</text></svg>`,'c4')}
+${C('Tren suhu 24 jam',CV('c3','Grafik suhu reaktor 24 jam dengan batas'),'c8')}
+${C('Panel keamanan (tiga level + pemanasan)',TB(['Level','Rentang','Tindakan'],[[' Pemanasan','< '+TH.sMin+' °C','Pantau kenaikan suhu'],[' Stabil',TH.sMin+'–'+TH.sMax+' °C','Operasi normal'],[' Waspada','> '+TH.sMax+' hingga < '+TH.sKrit+' °C','AI beri rekomendasi; peternak memutuskan'],[' Kritis','≥ '+TH.sKrit+' °C','Cut-off otomatis aktif']]),'c6')}
+${C('Batas desain (estimasi desain, belum diuji empiris)',TB(['Parameter','Nilai'],[['Puncak panas maks. tabung',F(R.puncakPanasMaksC,0)+' °C'],['Tekanan maks. tabung',F(R.tekananMaksTabungBar)+' bar'],['Katup pengaman',F(R.katupPengamanBar)+' bar'],['Tebal plat',R.ketebalanPlatMm.join(' / ')+' mm'],['σ keliling, kasus batas ('+F(R.tekananMaksTabungBar)+' bar)',F(D.sigma(R.tekananMaksTabungBar))+' MPa'],['σ keliling, kasus operasi ('+F(R.tekananOperasiBar)+' bar)',F(D.sigma(R.tekananOperasiBar))+' MPa']])+'<p class="m">σ = P·r/t, r = '+R.jariJariTabungMm+' mm (asumsi).</p>','c6')}${NERACA()}</div>`,
+ c:()=>{liveInit('c13','a','Suhu','°C',R.suhuOperasiC-30,R.suhuOperasiC+30);liveInit('c14','b','Tekanan','bar',1.1,1.7);const m=Array.from({length:48},(_,i)=>NOW-(47-i)*30);ch('c3','line',{labels:m.map(x=>F((x-NOW)/60,1)),datasets:[ds('Suhu (°C)',m.map(tp),col('--accent')),...lim(48)]},{},{x:'Jam relatif terhadap sekarang',y:'°C',min:0,max:700})}});
+P[3]=()=>({h:`<div class="g">${KP('Suhu kondensor',F(S.c),'°C','c')}${KP('Aliran syngas (estimasi)',F(D.flow),'m³/jam')}${KP('Efisiensi',F(K_.efisiensiPersen,0),'%')}${KP('Bio-oil dihasilkan',F(D.oilMid,0),'L')}
+${C('Suhu kondensor live (3 menit terakhir)',CV('c12','Grafik suhu kondensor live'),'c12')}${C('Komposisi output',CV('c4','Donat komposisi output kondensor'),'c6')}
+${C('Progres pendinginan',`<p>Uap 500 → ${F(K_.suhuC,0)} °C: <b>${F((R.suhuOperasiC-K_.suhuC)/(R.suhuOperasiC-AT.suhuAwalC)*100,0)}%</b> dari selisih ke suhu awal ${AT.suhuAwalC} °C (estimasi).</p><progress value="${R.suhuOperasiC-K_.suhuC}" max="${R.suhuOperasiC-AT.suhuAwalC}" style="width:100%" aria-label="Progres pendinginan"></progress>
+<p class="m"><b>Efisiensi</b> = persen uap kondensabel yang menjadi cair. <b>Losses</b> = bagian massa produk non-char yang hilang (kebocoran, tar, uap lolos). Keduanya ukuran berbeda. Aliran syngas = ${F(B.syngasPerBatchM3,0)} m³ ÷ ${AT.faseJam} jam (asumsi tambahan).</p>`,'c6')}</div>`,
+ c:()=>{liveInit('c12','c','Suhu kondensor','°C',K_.suhuC-10,K_.suhuC+10);return dn('c4','','x',['Bio-oil','Syngas','Losses'].map(x=>x),[K_.komposisiOutputPersen.bioOil,K_.komposisiOutputPersen.syngas,K_.komposisiOutputPersen.losses],[col('--g1'),col('--g3'),col('--g5')])}});
+P[4]=()=>({h:`<div class="g">${KP('Isi tangki',F(ST_.isiSaatIniL,0),'L / '+F(ST_.kapasitasTangkiL,0)+' L')}${KP('Bio-oil batch aktif',F(D.oilMid,0),'L')}${KP('Estimasi blending',F(ST_.estimasiBlendingHari,0),'hari')}${KP('Kualitas',' Baik','simulasi')}
+${C('Indikator tangki',`<div class="gauge" role="img" aria-label="Tangki terisi ${ST_.isiSaatIniL} dari ${ST_.kapasitasTangkiL} liter"><i style="height:${ST_.isiSaatIniL/ST_.kapasitasTangkiL*100}%"></i></div><p class="m">${F(ST_.isiSaatIniL/ST_.kapasitasTangkiL*100,0)}% terisi · rendah &lt; ${TH.iRendah} L · penuh ${TH.iPenuh} L</p>`,'c4')}
+${C('Rencana pemanfaatan',CV('c5','Donat rencana pemanfaatan bio-oil'),'c4')}${C('Tren pengisian 7 hari (bio-oil masuk/batch)',CV('c6','Grafik bar pengisian 7 hari'),'c4')}</div>`,
+ c:()=>{const u=ST_.pemanfaatanPersen;dn('c5','','x',['Blending solar','Cadangan genset','Riset'],[u.blendingSolar,u.cadanganGenset,u.riset],[col('--g1'),col('--g3'),col('--g5')]);
+ ch('c6','bar',{labels:BT.slice(14).map(b=>'#'+b.n),datasets:[ds('Bio-oil (L)',BT.slice(14).map(b=>b.oil),col('--accent-2'))]},{},{y:'L',min:0})}});
+P[5]=()=>{const r=pearson(BT.map(b=>b.T),BT.map(b=>b.oil)),mn=B.bioOilPerBatchL.min,mx=B.bioOilPerBatchL.max;
+ return{h:`<div class="g">${C('Korelasi suhu–yield',CV('c7','Sebar suhu rata-rata terhadap bio-oil per batch')+`<p class="m">Tiap titik = 1 batch. r = ${F(r,2)} (dihitung dari data simulasi).</p>`)}${C('Tren bio-oil 21 batch',CV('c8','Tren bio-oil per batch')+'<p class="m">Yield stabil di rentang '+mn+'–'+mx+' L/batch.</p>')}
+${C('Heatmap yield 21 batch',`<div class="hm" role="img" aria-label="Heatmap bio-oil 21 batch">${BT.map(b=>{const k=(b.oil-mn)/(mx-mn);return`<div style="background:color-mix(in srgb,var(--text) ${8+62*k}%,var(--surface));color:${k>.7?'var(--bg)':'var(--text)'}" title="Batch ${b.n}">#${b.n}<br>${F(b.oil)}</div>`}).join('')}</div><p class="m">Lebih terang = bio-oil (L) lebih tinggi.</p>`,'c12')}</div>`,
+ c:()=>{ch('c7','scatter',{datasets:[{label:'Batch',data:BT.map(b=>({x:b.T,y:b.oil})),backgroundColor:col('--accent')}]},{},{x:'Suhu rata-rata (°C)',y:'Bio-oil (L)'});
+ ch('c8','line',{labels:BT.map(b=>'#'+b.n),datasets:[ds('Bio-oil (L)',BT.map(b=>b.oil),col('--accent-2'))]},{},{y:'L'})}}};
+P[6]=()=>({h:`<div class="g">${C('Matriks kondisi sensor',TB(['Sensor','Nilai','Target','Kondisi'],[['Termokopel reaktor',`<span data-b="t"></span> °C`,F(R.suhuOperasiC,0)+' °C',' Online'],['Tekanan reaktor',`<span data-b="p"></span> bar`,F(R.tekananOperasiBar)+' bar',' Online'],['Laju pemanasan',`<span data-b="r"></span> °C/menit`,F(R.lajuPemanasanCperMenit)+' °C/menit',' Online'],['Termokopel kondensor',`<span data-b="c"></span> °C`,F(K_.suhuC,0)+' °C',' Online'],['Level tangki',F(ST_.isiSaatIniL,0)+' L',F(ST_.kapasitasTangkiL,0)+' L (kapasitas)',' Online'],['Oksigen',AT.oksigen,'Anoksik',' Online']]),'c8')}
+${C('Radar nilai vs target (%)',CV('c9','Radar nilai terhadap target'),'c4')}${C('Log 20 pembacaan terakhir',`<div id="log"></div>`,'c12')}</div>`,
+ c:()=>{ch('c9','radar',{labels:['Suhu','Tekanan','Laju','Kondensor'],datasets:[ds('Target',[100,100,100,100],col('--text-muted'),{fill:false}),ds('Nilai',[S.t/R.suhuOperasiC*100,S.p/R.tekananOperasiBar*100,S.r/R.lajuPemanasanCperMenit*100,S.c/K_.suhuC*100],col('--accent'),{fill:true,backgroundColor:'rgba(130,130,130,.2)'})]},{},null);CH.c9.options.scales={r:{min:80,max:120}};CH.c9.update()}});
+P[7]=()=>({h:`<div class="g">${C('<span class="pr"><i class="sw"></i></span> Bio-oil',`<p>Bahan bakar cair: blending dengan solar, cadangan genset, riset. Nilai kalor estimasi ${E.nilaiKalorBioOil_MJperL} MJ/L.</p>`,'c4')}${C('<span class="sy"><i class="sw"></i></span> Syngas',`<p>Pemanas kandang (brooding) dan panas proses reaktor. Nilai kalor estimasi ${E.nilaiKalorSyngas_MJperM3} MJ/m³.</p>`,'c4')}${C('<span class="ch"><i class="sw"></i></span> Biochar',`<p>Pupuk organik dan pembenah tanah. ${F(B.biocharPerBatchKg,0)} kg per batch (estimasi).</p>`,'c4')}
+${C('Keterkaitan SDG',`<p><b>SDG 7</b> energi bersih dan terjangkau · <b>SDG 12</b> konsumsi dan produksi bertanggung jawab · <b>SDG 13</b> penanganan perubahan iklim.</p>`,'c12')}</div>`});
+P[8]=()=>({h:`<div class="g">${KP('Kritis',cnt('Kritis'),'kejadian')}${KP('Peringatan (Waspada)',cnt('Waspada'),'kejadian')}${KP('Informasi',cnt('Informasi'),'kejadian')}<div class="card c3 np"><h3>Ekspor</h3><button class="pri" onclick="print()" aria-label="Cetak atau simpan sebagai PDF">Cetak / PDF</button></div>
+${C('Riwayat harian (14 hari)',TB(['Tanggal','Batch','Bio-oil (L)','Suhu rata² (°C)','Alert'],BT.slice(7).map((b,i)=>{const d=13-i;return[dt(d).toLocaleDateString('id-ID'),'#'+b.n,F(b.oil),F(b.T),ALR.filter(a=>a.d==d&&a.lvl!='Informasi').length||'–']})),'c12')}
+${C('Rekap per batch (21 batch)',batchTbl(),'c12')}${C('Log alert',`<label>Filter <select id="fl" aria-label="Filter level alert"><option>Semua</option><option>Kritis</option><option>Waspada</option><option>Informasi</option></select></label><div id="al"></div>`,'c12')}</div>`,
+ c:()=>{const f=()=>{const v=$('#fl').value;$('#al').innerHTML=TB(['Tanggal','Level','Pesan'],ALR.filter(a=>v=='Semua'||a.lvl==v).map(a=>[dt(a.d).toLocaleDateString('id-ID'),a.lvl,a.m]))};$('#fl').onchange=f;f()}});
+P[9]=()=>({h:`<div class="g">${C('Sembilan batas threshold',`<div class="in">${THM.map(([k,l,u,lo,hi])=>`<div><label for="t_${k}">${l} (${u})</label><input id="t_${k}" data-k="${k}" type="number" step="any" value="${TH[k]}" min="${lo}" max="${hi}"><small>Default ${THD[k]} · batas ${lo}–${hi}</small></div>`).join('')}</div><p><button class="pri" id="sv">Simpan</button> <button id="rs">Reset ke default</button></p><p id="tm" role="status"></p>`,'c12')}</div>`,
+ c:()=>{$('#sv').onclick=()=>{const n={},er=[];THM.forEach(([k,l,,lo,hi])=>{const v=parseFloat($('#t_'+k).value);if(!isFinite(v)||v<lo||v>hi)er.push(`${l}: isi ${lo}–${hi}`);else n[k]=v});
+  if(!er.length&&!(n.sMin<n.sMax&&n.sMax<n.sKrit))er.push('Urutan suhu harus stabil min < stabil maks < kritis');if(!er.length&&n.iRendah>=n.iPenuh)er.push('Isi rendah harus lebih kecil dari isi penuh');
+  if(er.length){$('#tm').innerHTML='<span class="err"> '+er.join(' · ')+'</span>';return}TH=n;try{localStorage.setItem('pf_th',JSON.stringify(n))}catch(e){}$('#tm').textContent=' Tersimpan. Batas tidak melebihi batas aman tabung.';toast('Threshold tersimpan')};
+  $('#rs').onclick=()=>{TH={...THD};try{localStorage.removeItem('pf_th')}catch(e){}go(9)}}});
+P[10]=()=>{const a=avg(b=>b.oil),av=avg(b=>b.air),ac=avg(b=>b.char),nc=U-ac-U*av/100;
+ return{h:`<div class="g">${KP('Rata² bio-oil',F(a),'L/batch')}${KP('Yield bio-oil',F(a/U,3),'L/kg')}${KP('Yield biochar',F(ac/U,3),'kg/kg')}${KP('MAPE prediksi AI',F(MAPE,2),'%')}
+${C('Yield per batch',CV('d1','Grafik yield bio-oil per batch'))}${C('Komposisi output rata-rata (massa, kg/batch)',CV('d2','Donat komposisi output rata-rata'))}
+${C('Prediksi AI vs aktual',CV('d3','Grafik prediksi AI dan aktual bio-oil'),'c12')}${C('Data 21 batch (input–output)',batchTbl(),'c12')}</div>${DISC}`,
+ c:()=>{ch('d1','bar',{labels:BT.map(b=>'#'+b.n),datasets:[ds('Bio-oil (L/kg)',BT.map(b=>b.oil/b.feed),col('--accent-2'))]},{},{y:'L/kg',min:0});
+ dn('d2','','x',['Biochar','Bio-oil','Syngas','Losses','Air'],[ac,nc*.62,nc*.3,nc*.08,U*av/100],[col('--g4'),col('--g1'),col('--g3'),col('--g5'),col('--g2')]);
+ ch('d3','line',{labels:BT.map(b=>'#'+b.n),datasets:[ds('Aktual (L)',BT.map(b=>b.oil),col('--accent-2')),ds('Prediksi AI (L)',BT.map(b=>b.pred),col('--info'),{borderDash:[5,4]})]},{},{x:'Batch',y:'Bio-oil (L)'})}}};
+const SI=[['pop','Populasi ayam (ekor)','min. 10.000',1e4,1e6,100],['kot','Produksi kotoran (kg/ekor/hari)','asumsi; literatur 0,10–0,15',.05,.3,.01],['kap','Kapasitas olah per unit (kg/hari)','kapasitas unit prototipe = 1 batch/hari × 150 kg; ASUMSI',10,5000,10],['unit','Jumlah unit reaktor','kapasitas, harga, dan biaya operasional dikali jumlah unit',1,10,1],['hari','Hari operasi per bulan','',1,31,1],['yOil','Yield bio-oil (L/kg)','= 41 L / 150 kg',.05,.6,.001],['yChar','Yield biochar (kg/kg)','= 60 kg / 150 kg',.1,.6,.01],['pOil','Harga bio-oil (Rp/L)','rentang pasar 10.000–11.000',0,5e4,100],['pChar','Harga biochar (Rp/kg)','rentang pasar 12.500–15.000',0,5e4,100],['charSold','Porsi biochar dijual (%)','sisanya dipakai sendiri/tidak dinilai',0,100,5],['lpg','Biaya LPG brooding tanpa syngas (Rp/periode)','untuk 20.000 ekor, linear terhadap populasi',0,1e9,1e5],['hLpg','Harga LPG (Rp/kg)','untuk konversi energi',1e3,1e5,500],['kLpg','Nilai kalor LPG (MJ/kg)','',20,60,1],['periode','Periode panen per tahun','',1,12,1],['syn','Syngas dialihkan ke brooding (%)','default 0: syngas diutamakan menutup panas reaktor',0,100,5],['hKot','Harga jual kotoran mentah (Rp/kg)','pendapatan yang hilang setelah diolah; asumsi',0,5e3,50],['buang','Biaya buang/angkut limbah (Rp/bulan)','biaya terhindar, isi bila ada',0,1e9,1e5],['opex','Biaya operasional per unit (Rp/bulan)','asumsi: operator 4,5 jt, listrik 2 jt, perawatan 2 jt, lain-lain 1,5 jt',0,1e9,1e5],['harga','Harga unit (Rp)','DP 60%, pelunasan 40% saat instalasi sensor selesai',1e6,1e10,1e6],['n','Mode patungan (jumlah peternak)','harga unit dan manfaat dibagi rata',1,4,1]];
+const heroH=()=>{const sc=SCN(),m=sc[1][1],pb=sc.map(s=>s[1].payback).filter(x=>x!=null);
+return`<section class="hero" aria-label="Ringkasan bisnis"><div><h2>Limbah kandang jadi profit center</h2><p class="m">PYRO-AI mengolah kotoran ayam menjadi <b class="pr">bio-oil</b>, <b class="sy">syngas</b>, dan <b class="ch">biochar</b>. AI membantu, peternak yang memutuskan.</p><div class="pills"><span class="bd ok"> Batch ${B.aktif} berjalan</span><span class="bd info"> MAPE prediksi AI ${F(MAPE,1)}%</span><span class="bd sim"> Simulasi</span></div></div>
+<div><div class="m">Manfaat bersih per bulan (moderat, estimasi)</div><div class="n">${JT(m.net)}</div><div class="m">Konservatif ${JT(sc[0][1].net)} · Optimis ${JT(sc[2][1].net)}${pb.length?' · balik modal indikatif '+F(Math.min(...pb),0)+'–'+F(Math.max(...pb),0)+' bulan':''}</div><div class="pills"><a class="btn" href="#p11">Coba simulator</a></div><div class="m">Indikatif, bukan jaminan hasil.</div></div></section>`};
+const SCN=()=>[['Konservatif',calcBenefit(IN,SC.kons)],['Moderat',calcBenefit(IN)],['Optimis',calcBenefit(IN,SC.opt)]];
+function simOut(){const sc=SCN(),m=sc[1][1],n=IN.n,pb=sc.map(s=>s[1].payback).filter(x=>x!=null);
+ const PB=x=>x.payback==null?'belum layak pada input ini':F(x.price/n/(x.net/n),1)+' bulan';
+ const rng=pb.length?(pb.length<3?'sebagian skenario belum layak; ':'')+F(Math.min(...pb),0)+'–'+F(Math.max(...pb),0)+' bulan':'belum layak pada input ini';
+ $('#sb').innerHTML=`<b>Moderat${n>1?' (per peternak)':''}:</b> <span class="mono">${JT(m.net/n)}/bulan</span> · <span class="mono">${JT(m.year/n)}/tahun</span> · balik modal ${PB(m)} <span class="m">(rentang ${rng})</span><span style="flex:1"></span><button onclick="csv()" aria-label="Unduh ringkasan skenario sebagai CSV">Unduh CSV</button> <button onclick="print()">Cetak</button>`;const oi=IN.pOil/E.nilaiKalorBioOil_MJperL,li=IN.hLpg/IN.kLpg;
+ const pO=[8000,9000,10000,11000,12000],pCs=[10000,11000,12000,13000,14000,15000];
+ $('#so').innerHTML=`<div class="g">${KP('Manfaat bersih / bulan'+(n>1?' (per peternak)':''),JT(m.net/n),'')}${KP('Manfaat bersih / tahun',JT(m.year/n),'')}${KP('Limbah diolah',F(m.olah,0),'kg/hari')}${KP('Porsi limbah kandang diolah',F(m.porsi*100,1),'%')}
+${C('Rincian per bulan (moderat)',TB(['Komponen','Rp / bulan'],[['Pendapatan bio-oil ('+F(m.oilSold,0)+' L dijual; '+F(m.oilSelf,0)+' L dipakai proses)',RP(m.revOil)],['Pendapatan biochar',RP(m.revChar)],['Penghematan LPG',RP(m.save)],['Biaya terhindar',RP(m.avoid)],['Pendapatan hilang (kotoran mentah)',RP(-m.lost)],['Biaya operasional',RP(-m.opex)],['<b>Manfaat bersih</b>','<b>'+RP(m.net)+'</b>']])+`<p class="m">Sisa limbah kandang (${F(100-m.porsi*100,1)}%) dianggap dijual/dibuang seperti biasa. Energi: syngas ${F(m.synMJ,0)} MJ vs kebutuhan proses ${F(m.proc,0)} MJ; selisih ditutup bio-oil. Catatan: 1 MJ LPG ≈ Rp${nz.format(li)} vs 1 MJ bio-oil ≈ Rp${nz.format(oi)}, sehingga mengalihkan syngas ke LPG ${li<oi?'tidak':''} menguntungkan pada harga ini.</p>`,'c6')}
+${C('Tiga skenario',TB(['Skenario','Net / bulan','Net / tahun','Balik modal indikatif'],sc.map(s=>[s[0],JT(s[1].net/n),JT(s[1].year/n),PB(s[1])]))+`<p><b>Rentang balik modal (harga unit ${RP(IN.harga*IN.unit/n)}${n>1?' per peternak':''}): ${rng}.</b></p><p class="m"><i>Indikatif, bergantung pada populasi, mortalitas, harga kontrak/HPP, dan harga pasar. Bukan jaminan hasil.</i></p>`,'c6')}
+${C('Komponen manfaat per skenario (Rp juta/bulan)',CV('s1','Grafik batang bertumpuk komponen manfaat tiga skenario',260),'c6')}${C('Sebelum (cost center) vs Sesudah (profit center), Rp juta/bulan',CV('s2','Grafik sebelum dan sesudah',260)+'<p class="m">Sebelum = pendapatan kotoran mentah − biaya buang − biaya LPG. Sesudah = Sebelum + manfaat bersih.</p>','c6')}
+${C('Sensitivitas manfaat bersih tahunan (Rp juta) — harga bio-oil (baris) × harga biochar (kolom), skenario moderat',TB(['Bio-oil \\ Biochar',...pCs.map(x=>nz.format(x))],pO.map(a=>[nz.format(a),...pCs.map(b=>F(calcBenefit(IN,{pOil:a,pChar:b}).year/n/1e6,1))])),'c12')}
+${C('Cara menghitung',`<div class="m"><p>Limbah diolah = min(populasi × kotoran/ekor, kapasitas × unit). Bio-oil, biochar = limbah diolah × yield × hari; syngas = limbah × (${B.syngasPerBatchM3}/${U}) × hari.</p><p>Kebutuhan panas = (limbah × hari / ${U}) × ${E.kebutuhanEnergiProsesPerBatch_MJ} MJ. Syngas dipakai dulu; kekurangan ditutup bio-oil (MJ ÷ ${E.nilaiKalorBioOil_MJperL}).</p><p>Penghematan LPG = min(1, energi syngas dialihkan ÷ energi LPG ekuivalen) × biaya LPG bulanan (biaya/periode × periode ÷ 12). Net = bio-oil + biochar + LPG + biaya terhindar − pendapatan hilang − operasional. Konservatif: yield ×0,8 (termasuk syngas), harga batas bawah, biochar terjual 50%. Optimis: harga batas atas, biochar terjual 70%.</p></div>`,'c12')}</div>`;
+ const cm=['Bio-oil','Biochar','LPG','Biaya terhindar','Pendapatan hilang','Operasional'],cc=[col('--g1'),col('--g2'),col('--g3'),col('--g4'),col('--g5'),col('--g6')];
+ ch('s1','bar',{labels:sc.map(s=>s[0]),datasets:[s=>s.revOil,s=>s.revChar,s=>s.save,s=>s.avoid,s=>-s.lost,s=>-s.opex].map((f,i)=>({label:cm[i],data:sc.map(s=>f(s[1])/1e6/n),backgroundColor:cc[i],borderColor:col('--border'),borderWidth:1}))},{},{st:1,y:'Rp juta/bulan'});
+ const bf=m.lost-IN.buang-m.lpgM;ch('s2','bar',{labels:['Sebelum (cost center)','Sesudah (profit center)'],datasets:[{label:'Rp juta/bulan',data:[bf/1e6/n,(bf+m.net)/1e6/n],backgroundColor:[col('--g4'),col('--g1')]}]},{},{y:'Rp juta/bulan'})}
+P[11]=()=>({h:`<div id="sb" class="card sticky" role="status"></div><div class="g">${C('Input simulator',`<div class="in">${SI.map(([k,l,nt,lo,hi,st])=>`<div><label for="i_${k}">${l}</label><input id="i_${k}" data-k="${k}" type="number" step="any" min="${lo}" max="${hi}" value="${+IN[k].toFixed(4)}" aria-describedby="e_${k}"><small>${nt}</small><span class="err" id="e_${k}"></span></div>`).join('')}</div><p><button id="rsI">Reset</button></p>`,'c12')}</div><div id="so"></div>${DISC}`,
+ c:()=>{document.querySelectorAll('.in input').forEach(e=>e.oninput=()=>{const k=e.dataset.k,[,, ,lo,hi]=SI.find(s=>s[0]==k),v=parseFloat(String(e.value).replace(',','.')),er=$('#e_'+k);
+  if(!isFinite(v)||v<lo||v>hi){e.setAttribute('aria-invalid','true');er.textContent=`Isi antara ${nz.format(lo)} dan ${nz.format(hi)}`;return}e.removeAttribute('aria-invalid');er.textContent='';IN[k]=v;simOut()});
+  $('#rsI').onclick=()=>{Object.assign(IN,SIMD);go(11);toast('Input dikembalikan ke default')};simOut()}});
+P[12]=()=>{const m=calcBenefit(IN),ton=m.olah*IN.hari*12/1000,bc=m.char*12/1000,rt=parseFloat(ENV.ratio),ef=parseFloat(ENV.ef);
+ return{h:`<div class="g">${KP('Limbah diolah',F(ton,1),'ton/tahun')}${KP('Biochar dihasilkan',F(bc,1),'ton/tahun')}${KP('Pupuk kimia tergantikan',rt>0?F(bc*rt,1):'belum diisi',rt>0?'ton/tahun':'')}${KP('Emisi terhindar',ef>0?F(ton*ef,1):'belum diisi',ef>0?'ton CO₂e/tahun':'')}
+${C('Asumsi (isi bila ada)',`<div class="in"><div><label for="e1">Rasio pupuk kimia tergantikan (ton/ton biochar)</label><input id="e1" type="number" step="any" min="0" max="10" value="${ENV.ratio}" placeholder="isi bila ada"></div><div><label for="e2">Faktor emisi terhindar (ton CO₂e/ton limbah)</label><input id="e2" type="number" step="any" min="0" max="10" value="${ENV.ef}" placeholder="isi bila ada"></div></div><p class="m">Tanpa angka bawaan dan tanpa klaim emisi. Angka di atas mengikuti input simulator: ${F(m.olah,0)} kg/hari × ${IN.hari} hari × 12 bulan; biochar = yield ${F(IN.yChar,2)} kg/kg × limbah diolah.</p>`,'c12')}
+${C('Keterkaitan SDG',`<p><b>SDG 7</b>: bio-oil dan syngas sebagai energi. <b>SDG 12</b>: limbah kandang diolah menjadi produk. <b>SDG 13</b>: dampak iklim baru dihitung bila faktor emisi diisi.</p>`,'c12')}</div>${DISC}`,
+ c:()=>{[['e1','ratio'],['e2','ef']].forEach(([i,k])=>$('#'+i).onchange=e=>{const v=parseFloat(e.target.value);ENV[k]=isFinite(v)&&v>=0&&v<=10?String(v):'';go(12)})}}};
+P[13]=()=>({h:`<div class="g">${C('Cara kerja AI',`<p><b>Sensor dibaca:</b> suhu reaktor, tekanan, laju pemanasan, suhu kondensor, level tangki.</p><p><b>Yang diprediksi:</b> anomali suhu/tekanan dan estimasi yield bio-oil per batch (galat prediksi pada simulasi ini: MAPE ${F(MAPE,2)}%).</p><p><b>AI membantu, peternak yang memutuskan.</b> AI hanya memberi rekomendasi; satu-satunya tindakan otomatis adalah cut-off pada ${R.cutOffOtomatisC} °C demi keselamatan.</p><p><b>Data di prototipe ini adalah simulasi</b>, diturunkan dari nilai proses terkunci dan asumsi yang berlabel.</p>`,'c12')}</div>`});
+const NERACA=()=>{const m=D.massa,seg=[['Biochar',m.char,1],['Bio-oil',m.oil,2],['Syngas',m.syn,3],['Losses',m.loss,4],['Air (kadar air '+AT.kadarAirPersen+'%)',m.air,6]],sw=n=>`<i class="sw" style="background:var(--g${n})"></i>`;
+return C('Neraca massa & energi per batch (estimasi)',`<div role="img" aria-label="Neraca massa per batch" style="display:flex;height:22px;border-radius:6px;overflow:hidden;border:1px solid var(--border);margin-bottom:12px">${seg.map(x=>`<i title="${x[0]}" style="flex:${x[1]};background:var(--g${x[2]})"></i>`).join('')}</div>`+TB(['Komponen','kg/batch','% umpan'],[...seg.map(x=>[sw(x[2])+x[0],F(x[1]),F(x[1]/U*100)]),['<b>Total</b>','<b>'+F(seg.reduce((a,x)=>a+x[1],0))+'</b>','<b>100,0</b>']])+`<p class="m">ASUMSI TAMBAHAN: kadar air ${AT.kadarAirPersen}% dari umpan ${F(U,0)} kg; non-char dibagi ${K_.komposisiOutputPersen.bioOil}/${K_.komposisiOutputPersen.syngas}/${K_.komposisiOutputPersen.losses}.</p>`+TB(['Energi (estimasi)','MJ/batch'],[['Total (bio-oil + syngas)',F(E.energiTotalPerBatch_MJ,0)],['Kebutuhan proses',F(E.kebutuhanEnergiProsesPerBatch_MJ,0)],['<b>Netto</b>','<b>'+F(E.energiNettoPerBatch_MJ,0)+'</b>']]),'c12')};
+// router
+const IC=['<rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/>', '<path d="M7 3h10v14a5 5 0 0 1-10 0z"/><path d="M7 9h10"/>', '<path d="M4 8h12a3 3 0 0 1 0 6H8a3 3 0 0 0 0 6h12"/>', '<rect x="5" y="4" width="14" height="16" rx="3"/><path d="M5 14h14"/>', '<path d="M4 20V4M4 20h16M8 16l4-5 3 3 5-7"/>', '<circle cx="12" cy="12" r="2"/><path d="M7 7a7 7 0 0 0 0 10M17 7a7 7 0 0 1 0 10"/>', '<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>', '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>', '<path d="M4 8h16M4 16h16"/><circle cx="9" cy="8" r="2.5"/><circle cx="15" cy="16" r="2.5"/>', '<path d="M4 8h13l-3-3M20 16H7l3 3"/>', '<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h2M12 12h2M8 16h2M12 16h2"/>', '<path d="M5 19c0-9 5-14 15-14 0 10-5 15-14 15"/><path d="M5 19c3-5 6-7 10-9"/>', '<rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/>'];const TTL={};PAGES.forEach(g=>g.slice(1).forEach(([i,t])=>TTL[i]=t));let cur=1;
+$('#nav').innerHTML=PAGES.map(g=>`<h4>${g[0]}</h4>`+g.slice(1).map(([i,t])=>`<a href="#p${i}" data-i="${i}"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true">${IC[i-1]}</svg>${t}</a>`).join('')).join('');
+function go(i){cur=i;Object.values(CH).forEach(c=>c.destroy());CH={};const p=P[i](),m=$('#main');
+ m.innerHTML=`<h1>${TTL[i]}</h1><p class="lead">Batch aktif ${B.aktif} · data simulasi · AI membantu, peternak yang memutuskan.</p>${p.h}<footer>Muhamad Daffa Amrulloh &amp; Farid Nadir Amrulloh – PT. PyroFarm Indonesia – 2026</footer>`;
+ document.querySelectorAll('nav a').forEach(a=>a.toggleAttribute('aria-current',+a.dataset.i==i)||a.removeAttribute('aria-current'));document.querySelectorAll('nav a').forEach(a=>{if(+a.dataset.i==i)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
+ if(p.c)p.c();upd();setNav(false);document.documentElement.style.setProperty('--hh',document.querySelector('header').offsetHeight+'px');scrollTo(0,0)}
+const kBd=()=>{const o=S.c<=TH.kMax&&K_.efisiensiPersen>=TH.eMin;return`<span class="bd ${o?'ok':'warn'}">${o?'Stabil':'Waspada'}</span>`};
+const sBd=()=>{const i=ST_.isiSaatIniL,r=i<TH.iRendah?['Isi rendah','warn']:i>=TH.iPenuh?['Isi penuh','warn']:['Isi normal','ok'];return`<span class="bd ${r[1]}">${r[0]}</span>`};
+const tile=(h,n,b,sub)=>`<a class="card c4 tile" href="#p${h}" aria-label="Buka ${n}"><h3>${n}</h3><div data-b="${b}"></div><div class="m">${sub}</div></a>`;
+const TILES=()=>tile(2,'Unit 1 · Reaktor','u1',F(R.suhuOperasiC,0)+' °C target · '+F(R.tekananOperasiBar)+' bar')+tile(3,'Unit 2 · Kondensor','u2','Efisiensi '+F(K_.efisiensiPersen,0)+'%')+tile(4,'Unit 3 · Storage','u3',F(ST_.isiSaatIniL,0)+' / '+F(ST_.kapasitasTangkiL,0)+' L');
+const BIND={u1:()=>bd(S.t),u2:kBd,u3:sBd,t:()=>F(S.t),p:()=>F(S.p,2),r:()=>F(S.r),c:()=>F(S.c),st:()=>bd(S.t)};
+function liveInit(id,k,l,u,lo,hi){const c=ch(id,'line',{labels:LOG.map(x=>x.t.toLocaleTimeString('id-ID')),datasets:[ds(l+' ('+u+')',LOG.map(x=>x[k]),col('--accent'))]},{},{y:u,min:lo,max:hi});if(c)c.$k=k}
+function upd(){const hs=STS(S.t),he=$('#hs');he.className='bd '+hs[2];he.textContent=hs[1]+' Reaktor '+hs[0]+' · '+F(S.t,0)+' °C';document.querySelectorAll('[data-b]').forEach(e=>e.innerHTML=BIND[e.dataset.b]());document.querySelectorAll('[data-sp]').forEach(e=>e.innerHTML=spark(e.dataset.sp));const fd=$('#feed');if(fd)fd.innerHTML=feedH();
+ const rx=$('#rx');if(rx){const s=STS(S.t);rx.style.strokeWidth=s[2]=='danger'?7:s[2]=='warn'?5:3;$('#rxt').textContent=s[1]+' '+s[0]}
+ const lg=$('#log');if(lg)lg.innerHTML=TB(['Waktu','Suhu (°C)','Tekanan (bar)','Kondensor (°C)'],LOG.slice(-20).reverse().map(l=>[l.t.toLocaleTimeString('id-ID'),F(l.a),F(l.b,2),F(l.c)]));
+ if(CH.c1){H2[39]=S.t;CH.c1.update('none')}Object.values(CH).forEach(c=>{if(c.$k){c.data.labels=LOG.map(x=>x.t.toLocaleTimeString('id-ID'));c.data.datasets[0].data=LOG.map(x=>x[c.$k]);c.update('none')}});if(CH.c9){CH.c9.data.datasets[1].data=[S.t/R.suhuOperasiC*100,S.p/R.tekananOperasiBar*100,S.r/R.lajuPemanasanCperMenit*100,S.c/K_.suhuC*100];CH.c9.update('none')}}
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove('on'),2500)}
+function csv(){const r=[['Skenario','Net per bulan (Rp)','Net per tahun (Rp)','Balik modal (bulan)'],...SCN().map(s=>[s[0],Math.round(s[1].net),Math.round(s[1].year),s[1].payback==null?'belum layak':s[1].payback.toFixed(1)])];const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([r.map(x=>x.join(';')).join('\n')],{type:'text/csv'}));a.download='pyrofarm-skenario.csv';a.click();toast('CSV diunduh')}
+function clock(){$('#clk').textContent=new Date().toLocaleTimeString('id-ID')}
+$('#hb').textContent='Batch aktif: '+B.aktif;
+$('#th').onclick=()=>{const h=document.documentElement;h.dataset.theme=h.dataset.theme=='dark'?'light':'dark';try{localStorage.setItem('pf_theme',h.dataset.theme)}catch(e){}Chart.defaults.color=col('--text-muted');go(cur)};
+const setNav=o=>{$('#nav').classList.toggle('open',o);$('#bk').classList.toggle('on',o);$('#ham').setAttribute('aria-expanded',o)};$('#ham').onclick=()=>setNav(!$('#nav').classList.contains('open'));$('#bk').onclick=()=>setNav(false);
+document.addEventListener('click',e=>{const a=e.target.closest('a[href^="#"]');if(!a)return;const h=a.getAttribute('href');if(h=='#main'){e.preventDefault();$('#main').focus();return}const i=+h.slice(2);if(/^#p\d+$/.test(h)&&P[i]){e.preventDefault();go(i);try{history.replaceState(null,'',h)}catch(_){}}});
+addEventListener('hashchange',()=>{const i=+(location.hash.match(/^#p(\d+)$/)||[])[1];if(P[i])go(i)});
+Chart.defaults.color=col('--text-muted');Chart.defaults.font.family='Inter,sans-serif';
+(()=>{const i=+(location.hash.match(/^#p(\d+)$/)||[])[1];go(P[i]?i:1)})();clock();
+setInterval(()=>{sim();LOG.push({t:new Date(),a:S.t,b:S.p,c:S.c});LOG.shift();if(tk%5==0)feedAdd();upd();clock()},B.pollingMs);
+</script></body></html>
